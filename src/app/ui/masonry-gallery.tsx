@@ -1,13 +1,18 @@
 import MasonryImage from "./masonry-image";
+import MasonryVideo from "./masonry-video";
 
 // masonry grid: https://tailwindflex.com/@simon-scheffer/masonry-grid
-// map loop urls: https://stackoverflow.com/a/71834386*/
-export default function MasonryGallery({ imageURLList }: { imageURLList: string[]}) {
+// map loop urls: https://stackoverflow.com/a/71834386
+// conditional component: https://stackoverflow.com/a/70923139
+export default function MasonryGallery({ mediaURLList }: { mediaURLList: string[]}) {
     return (
         <div className="columns-1 gap-3 sm:columns-2 md:columns-3 lg:columns-4 [&>Image:not(:first-child)]:mt-8">
-            { imageURLList.map((imageURL, i) => (
+            { mediaURLList.map((mediaURL, i) => (
                 <div key={i}>
-                    <MasonryImage imageURL={imageURL}/>
+                    { mediaURL.endsWith('.mp4') // Replace endsWith with file_ext
+                        ? <MasonryVideo videoURL={mediaURL}/>
+                        : <MasonryImage imageURL={mediaURL}/>
+                    }
                 </div>
             ))}
         </div>
