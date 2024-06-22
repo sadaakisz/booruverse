@@ -1,8 +1,19 @@
-import Image from "next/image";
+import MasonryGallery from "../ui/masonry-gallery";
 
-export default function Page() {
+const url = "https://testbooru.donmai.us/posts.json?page=1&limit=40";
 
-    const imagesURLList = [
+async function getImageURLList() {
+    const response = await fetch(url);
+    const data = await response.json();
+    const urlArr = data.map((imageObj: any) => imageObj.file_url);
+    const cleanUrlArr = urlArr.filter((url: string) => typeof url !== "undefined");
+    //console.log(cleanUrlArr);
+    return cleanUrlArr;
+}
+
+export default async function Page() {
+
+    const testbooruURLList = [
         "https://testbooru-cdn.donmai.us/original/ac/5e/ac5ee35f708f2d78b752263cab8f8ed3.jpg",
         "https://testbooru-cdn.donmai.us/sample/ab/7a/sample-ab7a8707cbe7b6af6a67c4007b6f16a5.jpg",
         "https://testbooru-cdn.donmai.us/sample/d4/86/sample-d486dd141db10be5f0770bb0e4f23950.jpg",
@@ -40,24 +51,11 @@ export default function Page() {
         "https://picsum.photos/750/300"
     ]
 
-    // masonry grid: https://tailwindflex.com/@simon-scheffer/masonry-grid
+    const imagesURLList = await getImageURLList();
     return (
-        <div /* className="p-5 sm:p-8" */>
-            <div className="columns-1 gap-3 sm:columns-2 md:columns-3 lg:columns-4 [&>Image:not(:first-child)]:mt-8">
-                {/* width auto fill: https://stackoverflow.com/a/76008677 */}
-                {/* map loop urls: https://stackoverflow.com/a/71834386*/}
-                { picsumURLList.map((imgURL, i) => (
-                    <div key={i}>
-                        <Image 
-                            className="mb-3 rounded-xl"
-                            src={imgURL} 
-                            alt="" 
-                            width={0} height={0} sizes="100vw" 
-                            style={{ width: '100%', height: 'auto' }}
-                        />
-                    </div>
-                ))}
-            </div>
+        <div>
+            {/* <button onClick={e => callAPIWithURL()}>Make API Call</button> */}
+            <MasonryGallery imageURLList={ imagesURLList }/>
         </div>
     );
 }
