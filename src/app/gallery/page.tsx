@@ -16,11 +16,12 @@ async function getBooruMediaArray() {
             score: media.score,
             rating: media.rating,
             file_ext: media.file_ext,
+            file_url: media.file_url,
+            image_height: media.image_height,
             tag_string_general: media.tag_string_general,
             tag_string_character: media.tag_string_character,
             tag_string_artist: media.tag_string_artist,
             tag_string_meta: media.tag_string_meta,
-            file_url: media.file_url,
         }
     ));
     const cleanBooruMediaArr = booruMediaArr.filter((media: BooruMedia) => typeof media.file_url !== "undefined");
