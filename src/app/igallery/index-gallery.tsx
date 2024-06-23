@@ -10,9 +10,11 @@ import MasonryGallery4c from "../ui/masonry-gallery-4c";
 // SOLUTION: https://stackoverflow.com/a/75339011
 // Added suppressHydrationWarning={true} in Root Layout. 
 // Sometimes it still happens when changing significant code? Only with extensions on though.
+// It appears that using setRequestedPages instead of pushing directly solves it.
 
 // KNOWLEDGE: infinite scroll: https://dev.to/kawanedres/implementing-infinite-scroll-in-nextjs-with-ssg-without-any-library-29g9
 
+// TODO: Figure out a way to balance columns (math) or begin loading when that smallest column ends (this is kinda a workaround).
 const IndexGallery = ({ initialData }: { initialData: any}) => {
     // TODO: Change this value to be in Page component?
     const colsNum: Number = 4;
@@ -42,11 +44,11 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
     const loadMoreData = async () => {
         setIsLoading(true);
         const requestPage = page + 1
-        const requestURL = `https://testbooru.donmai.us/posts.json?page=${requestPage}&limit=20&tags=rating:g`
+        const requestURL = `https://testbooru.donmai.us/posts.json?page=${requestPage}&limit=40&tags=rating:g`
         const moreData = await fetch(requestURL)
             .then(res => res.json());
         if (!requestedPages.includes(requestPage)) {
-            requestedPages.push(requestPage);
+            setRequestedPages((currentRequestedPages: any) => [...currentRequestedPages, requestPage]);
             setData((currentData: any) => [...currentData, ...moreData]);
             const tmpBMA = data.map((media: any) => (
                 {
