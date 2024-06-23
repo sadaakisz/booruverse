@@ -4,7 +4,7 @@ import MasonryGallery3c from "../ui/masonry-gallery-3c";
 import MasonryGallery4c from '../ui/masonry-gallery-4c';
 import { BooruMedia, BooruMediaSource } from '../lib/definitions';
 
-const url = "https://testbooru.donmai.us/posts.json?page=10&limit=40";
+const url = "https://testbooru.donmai.us/posts.json?page=11&limit=40&tags=rating:g";
 
 // KNOWLEDGE: how to reduce specific object parameters: https://stackoverflow.com/a/60408924
 async function getBooruMediaArray() {
@@ -26,28 +26,8 @@ async function getBooruMediaArray() {
     const cleanBooruMediaArr = booruMediaArr.filter((media: BooruMedia) => typeof media.file_url !== "undefined");
     return cleanBooruMediaArr;
 }
-// TODO: Search how to implement skeletons and shimer components using the dimensions when loading.
 export default async function Page() {
     const colsNum: Number = 4;
-    const picsumURLArray = [
-        "https://picsum.photos/200/300",
-        "https://picsum.photos/400/300",
-        "https://picsum.photos/200/600",
-        "https://picsum.photos/300/700",
-        "https://picsum.photos/250/450",
-        "https://picsum.photos/300/500",
-        "https://picsum.photos/400/900",
-        "https://picsum.photos/500/900",
-        "https://picsum.photos/600/300",
-        "https://picsum.photos/700/200",
-        "https://picsum.photos/200/400",
-        "https://picsum.photos/700/300",
-        "https://picsum.photos/500/300",
-        "https://picsum.photos/900/900",
-        "https://picsum.photos/500/900",
-        "https://picsum.photos/750/300"
-    ]
-
     const booruMediaArray = await getBooruMediaArray();
     const booruMediaSourceArray: Array<BooruMediaSource> = booruMediaArray.map((media: BooruMedia) => ({
         file_url: media.file_url,
