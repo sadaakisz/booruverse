@@ -2,7 +2,7 @@ import MasonryGallery from "../ui/masonry-gallery";
 import MasonryGallery2c from "../ui/masonry-gallery-2c";
 import MasonryGallery3c from "../ui/masonry-gallery-3c";
 import MasonryGallery4c from '../ui/masonry-gallery-4c';
-import { BooruMedia, BooruMediaSource } from '../lib/definitions';
+import { BooruMedia } from '../lib/definitions';
 
 const url = "https://testbooru.donmai.us/posts.json?page=11&limit=40&tags=rating:g";
 
@@ -29,18 +29,14 @@ async function getBooruMediaArray() {
 export default async function Page() {
     const colsNum: Number = 4;
     const booruMediaArray = await getBooruMediaArray();
-    const booruMediaSourceArray: Array<BooruMediaSource> = booruMediaArray.map((media: BooruMedia) => ({
-        file_url: media.file_url,
-        file_ext: media.file_ext
-    }));
     return (
         <div>
             { colsNum == 2
-                ? <MasonryGallery2c booruMediaSourceArray={ booruMediaSourceArray }/>
+                ? <MasonryGallery2c booruMediaArray={ booruMediaArray }/>
                 : colsNum == 3
-                    ? <MasonryGallery3c booruMediaSourceArray={ booruMediaSourceArray }/>
+                    ? <MasonryGallery3c booruMediaArray={ booruMediaArray }/>
                     : colsNum == 4
-                        ? <MasonryGallery4c booruMediaSourceArray={ booruMediaSourceArray }/>
+                        ? <MasonryGallery4c booruMediaArray={ booruMediaArray }/>
                         : <h1>Invalid colsNum value.</h1>
             }
         </div>

@@ -1,14 +1,15 @@
 'use client';
 
 import { useCallback, useEffect, useState } from "react";
-import { BooruMedia, BooruMediaSource } from '../lib/definitions';
+import { BooruMedia } from '../lib/definitions';
 import MasonryGallery2c from "../ui/masonry-gallery-2c";
 import MasonryGallery3c from "../ui/masonry-gallery-3c";
 import MasonryGallery4c from "../ui/masonry-gallery-4c";
 
 // BUG: It crashes when hot reloading, don't know if it's affected by another scenario. Solves itself reloading the page.
 // SOLUTION: https://stackoverflow.com/a/75339011
-// Added suppressHydrationWarning={true} in Root Layout.
+// Added suppressHydrationWarning={true} in Root Layout. 
+// Sometimes it still happens when changing significant code? Only with extensions on though.
 
 // KNOWLEDGE: infinite scroll: https://dev.to/kawanedres/implementing-infinite-scroll-in-nextjs-with-ssg-without-any-library-29g9
 
@@ -31,12 +32,6 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
                 file_url: media.file_url,
             }
         )).filter((media: BooruMedia) => typeof media.file_url !== "undefined")
-    );
-    const [booruMediaSourceArray, setBooruMediaSourceArray] = useState(
-        booruMediaArray.map((media: BooruMedia) => ({
-            file_url: media.file_url,
-            file_ext: media.file_ext
-        }))
     );
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false); // New state for loading
@@ -67,11 +62,6 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
             ));
             const cleanTmpBMA = tmpBMA.filter((media: BooruMedia) => typeof media.file_url !== "undefined")
             setBooruMediaArray(cleanTmpBMA);
-            const tmpBMSA = cleanTmpBMA.map((media: BooruMedia) => ({
-                file_url: media.file_url,
-                file_ext: media.file_ext
-            }));
-            setBooruMediaSourceArray(tmpBMSA);
             setPage(currentPage => currentPage + 1);
             }
             setIsLoading(false);
@@ -91,11 +81,11 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
     return (
         <div>
             { colsNum == 2
-                ? <MasonryGallery2c booruMediaSourceArray={ booruMediaSourceArray }/>
+                ? <MasonryGallery2c booruMediaArray={ booruMediaArray }/>
                 : colsNum == 3
-                    ? <MasonryGallery3c booruMediaSourceArray={ booruMediaSourceArray }/>
+                    ? <MasonryGallery3c booruMediaArray={ booruMediaArray }/>
                     : colsNum == 4
-                        ? <MasonryGallery4c booruMediaSourceArray={ booruMediaSourceArray }/>
+                        ? <MasonryGallery4c booruMediaArray={ booruMediaArray }/>
                         : <h1>Invalid colsNum value.</h1>
             }
             {isLoading && <p>Loading more images...</p>} {/* Loading indicator */}
