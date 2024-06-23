@@ -19,6 +19,7 @@ async function getBooruMediaArray() {
             file_url: media.file_url,
             image_height: media.image_height,
             image_width: media.image_width,
+            image_ratio: Math.round((media.image_height/media.image_width)*100),
             tag_string_general: media.tag_string_general,
             tag_string_character: media.tag_string_character,
             tag_string_artist: media.tag_string_artist,

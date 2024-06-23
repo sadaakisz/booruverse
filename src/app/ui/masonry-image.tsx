@@ -16,6 +16,7 @@ export default function MasonryImage({ imageURL }: { imageURL: string }) {
             alt=""
             width={0} height={0} sizes="100vw"
             style={{ width: '100%', height: 'auto', transition: 'opacity 0.7s ease-out' }}
+            priority={true}
         />
     );
 }

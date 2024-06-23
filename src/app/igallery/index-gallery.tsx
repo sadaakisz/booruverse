@@ -30,6 +30,7 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
                 file_url: media.file_url,
                 image_height: media.image_height,
                 image_width: media.image_width,
+                image_ratio: Math.round((media.image_height/media.image_width)*100),
                 tag_string_general: media.tag_string_general,
                 tag_string_character: media.tag_string_character,
                 tag_string_artist: media.tag_string_artist,
@@ -49,7 +50,11 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
         const moreData = await fetch(requestURL)
             .then(res => res.json());
         if (!requestedPages.includes(requestPage)) {
-            setRequestedPages((currentRequestedPages: any) => [...currentRequestedPages, requestPage]);
+            const tmpRequestedPages = requestedPages;
+            tmpRequestedPages.push(requestPage);
+            //requestedPages.push(requestPage);
+            setRequestedPages(tmpRequestedPages);
+            //setRequestedPages((currentRequestedPages: any) => [...currentRequestedPages, requestPage]);
             setData((currentData: any) => [...currentData, ...moreData]);
             const tmpBMA = data.map((media: any) => (
                 {
@@ -60,6 +65,7 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
                     file_url: media.file_url,
                     image_height: media.image_height,
                     image_width: media.image_width,
+                    image_ratio: Math.round((media.image_height/media.image_width)*100),
                     tag_string_general: media.tag_string_general,
                     tag_string_character: media.tag_string_character,
                     tag_string_artist: media.tag_string_artist,
