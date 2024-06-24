@@ -81,6 +81,7 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
         /* console.log('window.innerHeight:', window.innerHeight);
         console.log('window.scrollY:', window.scrollY);
         console.log('document.body.offsetHeight:', document.body.offsetHeight); */
+        // TODO: Adjust this condition below to prefetch more images v
         if (window.innerHeight + window.scrollY >= document.body.offsetHeight - window.innerHeight && !isLoading) {
             await loadMoreData();
         }
