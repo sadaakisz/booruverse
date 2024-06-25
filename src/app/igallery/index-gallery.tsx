@@ -17,7 +17,7 @@ import MasonryGallery4c from "../ui/masonry-gallery-4c";
 // TODO: Figure out a way to balance columns (math) or begin loading when that smallest column ends (this is kinda a workaround).
 const IndexGallery = ({ initialData }: { initialData: any}) => {
     // TODO: Change this value to be in Page component?
-    const colsNum: Number = 4;
+    const colsNum: Number = 3;
 
     const [data, setData] = useState(initialData.props.initialData);
     const [booruMediaArray, setBooruMediaArray] = useState(
