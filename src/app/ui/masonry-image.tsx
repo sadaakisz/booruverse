@@ -10,7 +10,7 @@ export default function MasonryImage({ imageURL }: { imageURL: string }) {
     const [loaded, setLoaded] = useState(false)
     return (
         <Image
-            className={`${(!loaded) ? 'opacity-0' : 'opacity-100'} rounded-xl`}
+            className={`${(!loaded) ? 'opacity-0' : 'opacity-100'} rounded-lg`}
             onLoad={() => setLoaded(true)}
             src={imageURL}
             alt=""

@@ -5,7 +5,7 @@ const shimmer =
 export function BooruMediaSkeleton() {
     return (
     <div
-        className={`animate-pulse relative overflow-hidden rounded-xl bg-neutral-900 p-2 shadow-sm h-96`}
+        className={`animate-pulse relative overflow-hidden rounded-lg bg-neutral-900 p-2 shadow-sm h-96`}
     >
     </div>
     );
