@@ -1,7 +1,7 @@
 import IndexGallery from "./index-gallery";
 
 async function getStaticProps() {
-    const res = await fetch('https://testbooru.donmai.us/posts.json?page=1&tags=rating:g');
+    const res = await fetch('https://testbooru.donmai.us/posts.json?page=1&limit=40&tags=rating:g');
     const initialData = await res.json();
     return { props: {initialData} };
 }
