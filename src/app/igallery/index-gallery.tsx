@@ -9,17 +9,14 @@ import { Squares2X2Icon } from '@heroicons/react/24/outline';
 
 // BUG: It crashes when hot reloading, don't know if it's affected by another scenario. Solves itself reloading the page.
 // SOLUTION?: https://stackoverflow.com/a/75339011
-// Added suppressHydrationWarning={true} in Root Layout. 
+// Added suppressHydrationWarning={true} in Root Layout.
 // Sometimes it still happens when changing significant code? Only with extensions on though.
 // It appears that using setRequestedPages instead of pushing directly solves it.
 
 // KNOWLEDGE: infinite scroll: https://dev.to/kawanedres/implementing-infinite-scroll-in-nextjs-with-ssg-without-any-library-29g9
 
-// TODO: Figure out a way to balance columns (math) or begin loading when that smallest column ends (this is kinda a workaround).
 const IndexGallery = ({ initialData }: { initialData: any}) => {
-    // TODO: Change this value to be in Page component?
     const [colsNum, setColsNum] = useState(2);
-
     const [data, setData] = useState(initialData.props.initialData);
     const [booruMediaArray, setBooruMediaArray] = useState(
         data.map((media: any) => (
@@ -43,8 +40,7 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
     const [isLoading, setIsLoading] = useState(false); // New state for loading
     const [requestedPages, setRequestedPages] = useState(Array.prototype);
 
-    const onScroll = useCallback(async () => {
-    const loadMoreData = async () => {
+    const loadMoreData = useCallback(async () => {
         setIsLoading(true);
         const requestPage = page + 1
         const requestURL = `https://testbooru.donmai.us/posts.json?page=${requestPage}&limit=40&tags=rating:g`
@@ -76,14 +72,16 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
             const cleanTmpBMA = tmpBMA.filter((media: BooruMedia) => typeof media.file_url !== "undefined")
             setBooruMediaArray(cleanTmpBMA);
             setPage(currentPage => currentPage + 1);
-            }
-            setIsLoading(false);
-        };
+        }
+        setIsLoading(false);
+    }, [data, page, requestedPages]);
+
+    const onScroll = useCallback(async () => {
         // KNOWLEDGE: it fetches more pages when 0.75x of the gallery height
-        if (window.scrollY >= document.body.offsetHeight * (3/4) && !isLoading) {
+        if (window.scrollY + window.innerHeight >= document.body.offsetHeight * (3/4) && !isLoading) {
             await loadMoreData();
         }
-    }, [data, isLoading, page, requestedPages]); // Dependencies
+    }, [isLoading, loadMoreData]); // Dependencies
 
     useEffect(() => {
     window.addEventListener('scroll', onScroll);
@@ -107,6 +105,12 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
                         ? <MasonryGallery4c booruMediaArray={ booruMediaArray }/>
                         : <h1>Invalid colsNum value.</h1>
             }
+            <div onClick={() => {}} className="flex items-center justify-center w-full my-4">
+                <div className="flex items-center justify-center bg-slate-800 rounded-xl h-[48px] w-[192px]">
+                    <h1>Load more</h1>
+                </div>
+            </div>
+
             <div
             className="flex items-center justify-center fixed bottom-4 right-16 mr-2 h-[48px] w-[48px] bg-gray-900 rounded-xl"
             >
