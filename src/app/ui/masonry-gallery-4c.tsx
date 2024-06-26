@@ -13,8 +13,6 @@ export default function MasonryGallery3c({ booruMediaArray }: { booruMediaArray:
     let hC3 = 0;
     let hC4 = 0;
 
-    const loadedImageIds = [];
-
     for (var i = 1; i <= booruMediaArray.length; i++) {
         let hMin = Math.min(hC1, hC2, hC3, hC4);
         if (hMin == hC1) {
@@ -32,7 +30,7 @@ export default function MasonryGallery3c({ booruMediaArray }: { booruMediaArray:
         }
     }
 
-    let minPrune = Math.min(hC1, hC2, hC3, hC4);
+    const minPrune = Math.min(hC1, hC2, hC3, hC4);
     hC1 = hC1 - minPrune;
     hC2 = hC2 - minPrune;
     hC3 = hC3 - minPrune;
