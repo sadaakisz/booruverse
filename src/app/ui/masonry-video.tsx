@@ -5,7 +5,7 @@
 export default function MasonryVideo({ videoURL }: { videoURL: string }) {
     return (
         <video 
-            className="rounded-xl animate-fade-in"
+            className="rounded-lg animate-fade-in"
             controls
             playsInline
             >
