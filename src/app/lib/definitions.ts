@@ -4,6 +4,7 @@ export interface BooruMedia {
     rating: string;
     file_ext: string;
     file_url: string;
+    variants: Array<any>;
     image_height: number;
     image_width: number;
     image_ratio: number;

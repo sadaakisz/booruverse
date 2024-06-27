@@ -26,8 +26,8 @@ export default function MasonryGallery2c({ booruMediaArray }: { booruMediaArray:
 
     return (
         <div className="grid gap-3 grid-cols-2">
-            <MasonryGalleryCol booruMediaArray={bmArrayC1}/>
-            <MasonryGalleryCol booruMediaArray={bmArrayC2}/>
+            <MasonryGalleryCol booruMediaArray={bmArrayC1} hq={true}/>
+            <MasonryGalleryCol booruMediaArray={bmArrayC2} hq={true}/>
         </div>
     );
 }
