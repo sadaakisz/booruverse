@@ -26,6 +26,7 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
                 rating: media.rating,
                 file_ext: media.file_ext,
                 file_url: media.file_url,
+                variants: media.media_asset.variants,
                 image_height: media.image_height,
                 image_width: media.image_width,
                 image_ratio: Math.round((media.image_height/media.image_width)*100),
@@ -53,6 +54,7 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
             setRequestedPages(tmpRequestedPages);
             //setRequestedPages((currentRequestedPages: any) => [...currentRequestedPages, requestPage]);
             setData((currentData: any) => [...currentData, ...moreData]);
+            // (media_asset - variants - [2?] or type "720x720" - url)
             const tmpBMA = data.map((media: any) => (
                 {
                     id: media.id,
@@ -60,6 +62,7 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
                     rating: media.rating,
                     file_ext: media.file_ext,
                     file_url: media.file_url,
+                    variants: media.media_asset.variants,
                     image_height: media.image_height,
                     image_width: media.image_width,
                     image_ratio: Math.round((media.image_height/media.image_width)*100),

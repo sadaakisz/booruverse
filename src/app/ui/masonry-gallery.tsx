@@ -1,4 +1,6 @@
-import MasonryImage from "./masonry-image";
+// NOT USED
+
+import MasonryImageHQ from "./masonry-image-hq";
 import MasonryVideo from "./masonry-video";
 import { BooruMedia } from '../lib/definitions';
 // KNOWLEDGE: masonry grid: https://tailwindflex.com/@simon-scheffer/masonry-grid
@@ -16,7 +18,7 @@ export default function MasonryGallery({ booruMediaArray }: { booruMediaArray: B
                 <div key={i} className="grid-element">
                     { booruMedia.file_ext === "mp4" || booruMedia.file_ext === "webm"
                         ? <MasonryVideo videoURL={booruMedia.file_url}/>
-                        : <MasonryImage imageURL={booruMedia.file_url}/>
+                        : <MasonryImageHQ imageURL={booruMedia.file_url} previewURL={booruMedia.variants[2].url}/>
                     }
                 </div>
             ))}

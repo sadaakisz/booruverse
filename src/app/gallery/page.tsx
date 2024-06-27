@@ -1,4 +1,3 @@
-import MasonryGallery from "../ui/masonry-gallery";
 import MasonryGallery2c from "../ui/masonry-gallery-2c";
 import MasonryGallery3c from "../ui/masonry-gallery-3c";
 import MasonryGallery4c from '../ui/masonry-gallery-4c';
