@@ -9,7 +9,7 @@ import Link from "next/link";
 // KNOWLEDGE: map loop urls: https://stackoverflow.com/a/71834386
 // KNOWLEDGE: conditional component: https://stackoverflow.com/a/70923139
 
-// TODO: Check https://stackoverflow.com/a/76679262 for link params passing
+// TODO: Check nextjs router: https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#metadata
 
 export default function MasonryGalleryCol({ booruMediaArray, hq }: { booruMediaArray: BooruMedia[], hq: boolean }) {
     return (

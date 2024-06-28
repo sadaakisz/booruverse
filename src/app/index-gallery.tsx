@@ -1,10 +1,10 @@
 'use client';
 
 import { useCallback, useEffect, useState } from "react";
-import { BooruMedia } from '../lib/definitions';
-import MasonryGallery2c from "../ui/masonry-gallery-2c";
-import MasonryGallery3c from "../ui/masonry-gallery-3c";
-import MasonryGallery4c from "../ui/masonry-gallery-4c";
+import { BooruMedia } from './lib/definitions';
+import MasonryGallery2c from "./ui/masonry-gallery-2c";
+import MasonryGallery3c from "./ui/masonry-gallery-3c";
+import MasonryGallery4c from "./ui/masonry-gallery-4c";
 import { Squares2X2Icon } from '@heroicons/react/24/outline';
 
 // BUG: It crashes when hot reloading, don't know if it's affected by another scenario. Solves itself reloading the page.
