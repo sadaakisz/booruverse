@@ -19,7 +19,13 @@ export default function MasonryImageHQ({ imageURL, previewURL }: { imageURL: str
                     src={previewURL}
                     alt=""
                     width={0} height={0} sizes="100vw"
-                    style={{ width: '100%', height: 'auto', transition: 'opacity 0.7s ease-out' }}
+                    style={{
+                        width: '100%',
+                        height: 'auto',
+                        transition: 'opacity 0.7s ease-out',
+                        // transform 0 0 0 forces the GPU to be used
+                        transform: 'translate3d(0, 0, 0)'
+                    }}
                     priority={true}
                 />
             }
@@ -29,7 +35,13 @@ export default function MasonryImageHQ({ imageURL, previewURL }: { imageURL: str
                 src={imageURL}
                 alt=""
                 width={0} height={0} sizes="100vw"
-                style={{ width: '100%', height: 'auto', transition: 'opacity 0.7s ease-out' }}
+                style={{
+                    width: '100%',
+                    height: 'auto',
+                    transition: 'opacity 0.7s ease-out',
+                    // transform 0 0 0 forces the GPU to be used
+                    transform: 'translate3d(0, 0, 0)'
+                }}
                 priority={true}
             />
         </div>
