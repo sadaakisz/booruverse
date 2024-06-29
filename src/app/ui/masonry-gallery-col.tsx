@@ -1,11 +1,8 @@
-'use client';
-
 import MasonryImageHQ from "./masonry-image-hq";
 import MasonryImageLQ from "./masonry-image-lq";
 import MasonryVideo from "./masonry-video";
 import { BooruMedia } from '../lib/definitions';
 import Link from "next/link";
-
 
 // LIMITATION: when in the end of the gallery, there is potential for whitespace due to height differences between cols
 // KNOWLEDGE: map loop urls: https://stackoverflow.com/a/71834386
@@ -36,17 +33,3 @@ export default function MasonryGalleryCol({ booruMediaArray, hq }: { booruMediaA
         </div>
     );
 }
-
-{/* <Link 
-    key={i}
-    href={{
-        pathname: `/photo/[id]`,
-        query: {
-            id: booruMedia.id,
-            file_url: booruMedia.file_url,
-        },
-    }}
-    as={`/photo/${booruMedia.id}`}
-    //shallow
-    className="after:content group relative mb-5 block w-full cursor-zoom-in after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight"
-></Link> */}

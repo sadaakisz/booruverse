@@ -30,6 +30,16 @@ const BooruImage = () => {
     if (isLoading) return <p>Loading...</p>
     if (!data) return <p>No valid image url.</p>
 
+    const extraStyles = () => {
+        return {
+            width: 'auto',
+            height: 'auto',
+            transition: 'opacity 0.7s ease-out',
+            // transform 0 0 0 forces the GPU to be used
+            transform: 'translate3d(0, 0, 0)'
+        };
+    }
+
     return (
         <div className='flex justify-center h-screen'>
             {
@@ -40,13 +50,7 @@ const BooruImage = () => {
                     src={data['large_file_url']}
                     alt=""
                     width={0} height={0} sizes="100vw"
-                    style={{
-                        width: 'auto',
-                        height: 'auto',
-                        transition: 'opacity 0.7s ease-out',
-                        // transform 0 0 0 forces the GPU to be used
-                        transform: 'translate3d(0, 0, 0)'
-                    }}
+                    style={extraStyles()}
                     priority={true}
                 />
             }
@@ -56,13 +60,7 @@ const BooruImage = () => {
                 src={data['file_url']}
                 alt=""
                 width={0} height={0} sizes="100vw"
-                style={{
-                    width: 'auto',
-                    height: 'auto',
-                    transition: 'opacity 0.7s ease-out',
-                    // transform 0 0 0 forces the GPU to be used
-                    transform: 'translate3d(0, 0, 0)'
-                }}
+                style={extraStyles()}
                 priority={true}
             />
         </div>

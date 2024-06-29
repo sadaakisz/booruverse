@@ -8,10 +8,8 @@ import MasonryGallery4c from "./ui/masonry-gallery-4c";
 import { Squares2X2Icon } from '@heroicons/react/24/outline';
 
 // BUG: It crashes when hot reloading, don't know if it's affected by another scenario. Solves itself reloading the page.
-// SOLUTION?: https://stackoverflow.com/a/75339011
-// Added suppressHydrationWarning={true} in Root Layout.
-// Sometimes it still happens when changing significant code? Only with extensions on though.
-// It appears that using setRequestedPages instead of pushing directly solves it.
+// It crashes when it's loading more pages and the window changes (whether by realoding the project or clicking a link).
+// The issue is gone when useEffect is commented. Probably the loadMoreData or onScroll functions are problematic.
 
 // KNOWLEDGE: infinite scroll: https://dev.to/kawanedres/implementing-infinite-scroll-in-nextjs-with-ssg-without-any-library-29g9
 
@@ -48,11 +46,7 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
         const moreData = await fetch(requestURL)
             .then(res => res.json());
         if (!requestedPages.includes(requestPage)) {
-            const tmpRequestedPages = requestedPages;
-            tmpRequestedPages.push(requestPage);
-            //requestedPages.push(requestPage);
-            setRequestedPages(tmpRequestedPages);
-            //setRequestedPages((currentRequestedPages: any) => [...currentRequestedPages, requestPage]);
+            setRequestedPages((currentRequestedPages: any) => [...currentRequestedPages, requestPage]);
             setData((currentData: any) => [...currentData, ...moreData]);
             // (media_asset - variants - [2?] or type "720x720" - url)
             const tmpBMA = data.map((media: any) => (
@@ -108,7 +102,7 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
                         ? <MasonryGallery4c booruMediaArray={ booruMediaArray }/>
                         : <h1>Invalid colsNum value.</h1>
             }
-            <div onClick={() => {}} className="flex items-center justify-center w-full my-4">
+            <div onClick={() => { loadMoreData() }} className="flex items-center justify-center w-full my-4">
                 <div className="flex items-center justify-center bg-slate-800 rounded-xl h-[48px] w-[192px]">
                     <h1>Load more</h1>
                 </div>
@@ -124,7 +118,7 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
                 {
                     isLoading &&
                     <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                 }
