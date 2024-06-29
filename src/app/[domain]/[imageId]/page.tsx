@@ -10,8 +10,9 @@ import { useCallback, useEffect, useState } from 'react';
 
 const BooruImage = () => {
     const pathname = usePathname();
+    const domain = pathname.split('/')[1];
     const id = pathname.split('/')[2];
-    const requestURL = `https://testbooru.donmai.us/posts/${id}.json`;
+    const requestURL = `https://${domain}/posts/${id}.json`;
 
     const [data, setData] = useState(null);
     const [isLoading, setLoading] = useState(true);
@@ -26,7 +27,6 @@ const BooruImage = () => {
                 setLoading(false);
             });
     }, [requestURL]);
-
     if (isLoading) return <p>Loading...</p>
     if (!data) return <p>No valid image url.</p>
 

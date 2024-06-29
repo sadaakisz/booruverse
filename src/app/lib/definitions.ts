@@ -12,4 +12,5 @@ export interface BooruMedia {
     tag_string_character: string;
     tag_string_artist: string;
     tag_string_meta: string;
+    domain: string;
 }

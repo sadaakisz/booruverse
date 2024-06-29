@@ -13,7 +13,7 @@ import { Squares2X2Icon } from '@heroicons/react/24/outline';
 
 // KNOWLEDGE: infinite scroll: https://dev.to/kawanedres/implementing-infinite-scroll-in-nextjs-with-ssg-without-any-library-29g9
 
-const IndexGallery = ({ initialData }: { initialData: any}) => {
+const IndexGallery = ({ initialData, domain }: { initialData: any, domain: string}) => {
     const [colsNum, setColsNum] = useState(2);
     const [data, setData] = useState(initialData.props.initialData);
     const [booruMediaArray, setBooruMediaArray] = useState(
@@ -32,6 +32,7 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
                 tag_string_character: media.tag_string_character,
                 tag_string_artist: media.tag_string_artist,
                 tag_string_meta: media.tag_string_meta,
+                domain: String(media.file_url).split('/')[2],
             }
         )).filter((media: BooruMedia) => typeof media.file_url !== "undefined")
     );
@@ -42,7 +43,7 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
     const loadMoreData = useCallback(async () => {
         setIsLoading(true);
         const requestPage = page + 1
-        const requestURL = `https://testbooru.donmai.us/posts.json?page=${requestPage}&limit=40&tags=rating:g`
+        const requestURL = `https://${domain}/posts.json?page=${requestPage}&limit=40&tags=rating:g`
         const moreData = await fetch(requestURL)
             .then(res => res.json());
         if (!requestedPages.includes(requestPage)) {
@@ -64,6 +65,7 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
                     tag_string_character: media.tag_string_character,
                     tag_string_artist: media.tag_string_artist,
                     tag_string_meta: media.tag_string_meta,
+                    domain: String(media.file_url).split('/')[2],
                 }
             ));
             const cleanTmpBMA = tmpBMA.filter((media: BooruMedia) => typeof media.file_url !== "undefined")
@@ -71,7 +73,7 @@ const IndexGallery = ({ initialData }: { initialData: any}) => {
             setPage(currentPage => currentPage + 1);
         }
         setIsLoading(false);
-    }, [data, page, requestedPages]);
+    }, [data, domain, page, requestedPages]);
 
     const onScroll = useCallback(async () => {
         // KNOWLEDGE: it fetches more pages when 0.75x of the gallery height
