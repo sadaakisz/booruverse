@@ -6,6 +6,7 @@ import { useState } from "react";
 // KNOWLEDGE: width auto fill: https://stackoverflow.com/a/76008677
 // KNOWLEDGE: skeletons: https://stackoverflow.com/a/77031188
 // decided not to go the skeleton route with onLoad, because it's firing early on some images.
+// TODO: There is still a bug when loading, shows the preview image up top and the loading full image below.
 export default function MasonryImageHQ({ imageURL, previewURL }: { imageURL: string, previewURL: string }) {
     const [loaded, setLoaded] = useState(false);
     const [preloaded, setPreloaded] = useState(false);
