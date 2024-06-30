@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // KNOWLEDGE: Routing conventions: https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes#example
 // KNOWLEDGE: Fetching on load: https://nextjs.org/docs/pages/building-your-application/data-fetching/client-side#client-side-data-fetching-with-useeffect
