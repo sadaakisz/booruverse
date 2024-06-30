@@ -12,27 +12,22 @@ import Link from "next/link";
 // TODO: Alternatively, pass the id and provider and get the image in the component building the url.
 
 export default function MasonryGalleryCol({ booruMediaArray, hq }: { booruMediaArray: BooruMedia[], hq: boolean }) {
-
-    const realDomains = new Map([
-        ["testbooru-cdn.donmai.us", "testbooru.donmai.us"],
-        ["cdn.donmai.us", "danbooru.donmai.us"]
-      ]);
     return (
         <div className="grid-element space-y-3">
-            { booruMediaArray.map((booruMedia, i) => (
+            { booruMediaArray.map((booruMedia: BooruMedia) => (
                 <>
                     <Link
-                        key={i}
-                        href={`/?domain=${realDomains.get(booruMedia.domain)}&imageId=${booruMedia.id}`}
-                        as={`/${realDomains.get(booruMedia.domain)}/${booruMedia.id}`}
+                        key={booruMedia.id}
+                        href={`/?domain=${booruMedia.domain}&imageId=${booruMedia.id}`}
+                        as={`/${booruMedia.domain}/${booruMedia.id}`}
                         shallow
                         className="after:content group relative mb-5 block w-full cursor-zoom-in after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight"
                     >
                         { booruMedia.file_ext === "mp4" || booruMedia.file_ext === "webm"
-                            ? <MasonryVideo videoURL={booruMedia.file_url}/>
+                            ? <MasonryVideo key={booruMedia.id} videoURL={booruMedia.file_url}/>
                             : hq
-                                ? <MasonryImageHQ imageURL={booruMedia.file_url} previewURL={booruMedia.variants[2].url}/>
-                                : <MasonryImageLQ imageURL={booruMedia.file_url} previewURL={booruMedia.variants[2].url}/>
+                                ? <MasonryImageHQ key={booruMedia.id} imageURL={booruMedia.file_url} previewURL={booruMedia.large_file_url}/>
+                                : <MasonryImageLQ key={booruMedia.id} imageURL={booruMedia.file_url} previewURL={booruMedia.large_file_url}/>
                         }
                     </Link>
                 </>

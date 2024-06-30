@@ -13,26 +13,15 @@ import { Squares2X2Icon } from '@heroicons/react/24/outline';
 
 // KNOWLEDGE: infinite scroll: https://dev.to/kawanedres/implementing-infinite-scroll-in-nextjs-with-ssg-without-any-library-29g9
 
-const IndexGallery = ({ initialData, domain }: { initialData: any, domain: string}) => {
+const InfiniteGallery = ({ initialData, domain }: { initialData: any, domain: string}) => {
     const [colsNum, setColsNum] = useState(2);
-    const [data, setData] = useState(initialData.props.initialData);
+    const [data, setData] = useState(initialData);
     const [booruMediaArray, setBooruMediaArray] = useState(
         data.map((media: any) => (
             {
-                id: media.id,
-                score: media.score,
-                rating: media.rating,
-                file_ext: media.file_ext,
-                file_url: media.file_url,
-                variants: media.media_asset.variants,
-                image_height: media.image_height,
-                image_width: media.image_width,
+                ...media,
                 image_ratio: Math.round((media.image_height/media.image_width)*100),
-                tag_string_general: media.tag_string_general,
-                tag_string_character: media.tag_string_character,
-                tag_string_artist: media.tag_string_artist,
-                tag_string_meta: media.tag_string_meta,
-                domain: String(media.file_url).split('/')[2],
+                domain: `${domain}`,
             }
         )).filter((media: BooruMedia) => typeof media.file_url !== "undefined")
     );
@@ -52,20 +41,9 @@ const IndexGallery = ({ initialData, domain }: { initialData: any, domain: strin
             // (media_asset - variants - [2?] or type "720x720" - url)
             const tmpBMA = data.map((media: any) => (
                 {
-                    id: media.id,
-                    score: media.score,
-                    rating: media.rating,
-                    file_ext: media.file_ext,
-                    file_url: media.file_url,
-                    variants: media.media_asset.variants,
-                    image_height: media.image_height,
-                    image_width: media.image_width,
+                    ...media,
                     image_ratio: Math.round((media.image_height/media.image_width)*100),
-                    tag_string_general: media.tag_string_general,
-                    tag_string_character: media.tag_string_character,
-                    tag_string_artist: media.tag_string_artist,
-                    tag_string_meta: media.tag_string_meta,
-                    domain: String(media.file_url).split('/')[2],
+                    domain: `${domain}`,
                 }
             ));
             const cleanTmpBMA = tmpBMA.filter((media: BooruMedia) => typeof media.file_url !== "undefined")
@@ -135,4 +113,4 @@ const IndexGallery = ({ initialData, domain }: { initialData: any, domain: strin
     );
 };
 
-export default IndexGallery;
+export default InfiniteGallery;
