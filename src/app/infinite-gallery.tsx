@@ -11,34 +11,32 @@ import { Squares2X2Icon } from '@heroicons/react/24/outline';
 // It crashes when it's loading more pages and the window changes (whether by realoding the project or clicking a link).
 // The issue is gone when useEffect is commented. Probably the loadMoreData or onScroll functions are problematic.
 
+// TODO: Check if https://react.dev/learn/passing-data-deeply-with-context can help with maintaining the state of loaded images when going back or realoading here.
+
 // KNOWLEDGE: infinite scroll: https://dev.to/kawanedres/implementing-infinite-scroll-in-nextjs-with-ssg-without-any-library-29g9
 
-const IndexGallery = ({ initialData, domain }: { initialData: any, domain: string}) => {
-    const [colsNum, setColsNum] = useState(2);
-    const [data, setData] = useState(initialData.props.initialData);
+function addProperties(booruMediaArray: BooruMedia[], domain: string): BooruMedia[] {
+    return booruMediaArray.map((media: BooruMedia) => ({
+        ...media,
+        image_ratio: Math.round((media.image_height/media.image_width)*100),
+        domain: domain,
+    }));
+}
+
+function filterEmptyURLs(booruMediaArray: BooruMedia[]): BooruMedia[] {
+    return booruMediaArray.filter((media: BooruMedia) => typeof media.file_url !== "undefined");
+}
+
+const InfiniteGallery = ({ initialData, domain }: { initialData: BooruMedia[], domain: string}) => {
     const [booruMediaArray, setBooruMediaArray] = useState(
-        data.map((media: any) => (
-            {
-                id: media.id,
-                score: media.score,
-                rating: media.rating,
-                file_ext: media.file_ext,
-                file_url: media.file_url,
-                variants: media.media_asset.variants,
-                image_height: media.image_height,
-                image_width: media.image_width,
-                image_ratio: Math.round((media.image_height/media.image_width)*100),
-                tag_string_general: media.tag_string_general,
-                tag_string_character: media.tag_string_character,
-                tag_string_artist: media.tag_string_artist,
-                tag_string_meta: media.tag_string_meta,
-                domain: String(media.file_url).split('/')[2],
-            }
-        )).filter((media: BooruMedia) => typeof media.file_url !== "undefined")
+        filterEmptyURLs(
+            addProperties(initialData, domain)
+        )
     );
+    const [cols, setCols] = useState(2);
     const [page, setPage] = useState(1);
-    const [isLoading, setIsLoading] = useState(false); // New state for loading
     const [requestedPages, setRequestedPages] = useState(Array.prototype);
+    const [isLoading, setIsLoading] = useState(false);
 
     const loadMoreData = useCallback(async () => {
         setIsLoading(true);
@@ -46,61 +44,44 @@ const IndexGallery = ({ initialData, domain }: { initialData: any, domain: strin
         const requestURL = `https://${domain}/posts.json?page=${requestPage}&limit=40&tags=rating:g`
         const moreData = await fetch(requestURL)
             .then(res => res.json());
+
         if (!requestedPages.includes(requestPage)) {
+            const moreBooruMedia =
+                filterEmptyURLs(
+                    addProperties(moreData, domain)
+                );
+            setBooruMediaArray((currentBooruMediaArray: BooruMedia[]) => [...currentBooruMediaArray, ...moreBooruMedia]);
             setRequestedPages((currentRequestedPages: any) => [...currentRequestedPages, requestPage]);
-            setData((currentData: any) => [...currentData, ...moreData]);
-            // (media_asset - variants - [2?] or type "720x720" - url)
-            const tmpBMA = data.map((media: any) => (
-                {
-                    id: media.id,
-                    score: media.score,
-                    rating: media.rating,
-                    file_ext: media.file_ext,
-                    file_url: media.file_url,
-                    variants: media.media_asset.variants,
-                    image_height: media.image_height,
-                    image_width: media.image_width,
-                    image_ratio: Math.round((media.image_height/media.image_width)*100),
-                    tag_string_general: media.tag_string_general,
-                    tag_string_character: media.tag_string_character,
-                    tag_string_artist: media.tag_string_artist,
-                    tag_string_meta: media.tag_string_meta,
-                    domain: String(media.file_url).split('/')[2],
-                }
-            ));
-            const cleanTmpBMA = tmpBMA.filter((media: BooruMedia) => typeof media.file_url !== "undefined")
-            setBooruMediaArray(cleanTmpBMA);
             setPage(currentPage => currentPage + 1);
         }
         setIsLoading(false);
-    }, [data, domain, page, requestedPages]);
+    }, [domain, page, requestedPages]);
 
     const onScroll = useCallback(async () => {
         // KNOWLEDGE: it fetches more pages when 0.75x of the gallery height
         if (window.scrollY + window.innerHeight >= document.body.offsetHeight * (3/4) && !isLoading) {
             await loadMoreData();
         }
-    }, [isLoading, loadMoreData]); // Dependencies
+    }, [isLoading, loadMoreData]);
 
     useEffect(() => {
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
+        window.addEventListener('scroll', onScroll);
+        return () => window.removeEventListener('scroll', onScroll);
     }, [onScroll]);
 
     function changeColsNum() {
-        console.log('colsNum:', colsNum)
-        if (colsNum == 2) setColsNum(3);
-        else if (colsNum == 3) setColsNum(4);
-        else setColsNum(2);
+        if (cols == 2) setCols(3);
+        else if (cols == 3) setCols(4);
+        else setCols(2);
     }
 
     return (
         <div>
-            { colsNum == 2
+            { cols == 2
                 ? <MasonryGallery2c booruMediaArray={ booruMediaArray }/>
-                : colsNum == 3
+                : cols == 3
                     ? <MasonryGallery3c booruMediaArray={ booruMediaArray }/>
-                    : colsNum == 4
+                    : cols == 4
                         ? <MasonryGallery4c booruMediaArray={ booruMediaArray }/>
                         : <h1>Invalid colsNum value.</h1>
             }
@@ -135,4 +116,4 @@ const IndexGallery = ({ initialData, domain }: { initialData: any, domain: strin
     );
 };
 
-export default IndexGallery;
+export default InfiniteGallery;

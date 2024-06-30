@@ -1,4 +1,4 @@
-import IndexGallery from "./index-gallery";
+import InfiniteGallery from "./infinite-gallery";
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -9,18 +9,19 @@ export const metadata: Metadata = {
 
 // TODO: Implement safe mode toggle
 // TODO: Implement test and real danbooru calls switch
-// TODO: Consider using large_file_url instead of variants[2]
 
 async function getStaticProps(domain: string) {
     const res = await fetch(`https://${domain}/posts.json?page=1&limit=40&tags=rating:g`);
     const initialData = await res.json();
-    return { props: {initialData} };
+    return initialData;
 }
 
 export default async function Page() {
-    const domain = 'danbooru.donmai.us';
+    const domain = 'testbooru.donmai.us';
     const initialData = await getStaticProps(domain);
+
+    
     return (
-        <IndexGallery initialData={initialData} domain={domain}/>
+        <InfiniteGallery initialData={initialData} domain={domain}/>
     );
 }
