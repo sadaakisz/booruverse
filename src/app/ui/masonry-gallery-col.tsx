@@ -8,9 +8,6 @@ import Link from "next/link";
 // KNOWLEDGE: map loop urls: https://stackoverflow.com/a/71834386
 // KNOWLEDGE: conditional component: https://stackoverflow.com/a/70923139
 
-// TODO: Check nextjs router: https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#metadata
-// TODO: Alternatively, pass the id and provider and get the image in the component building the url.
-
 export default function MasonryGalleryCol({ booruMediaArray, hq }: { booruMediaArray: BooruMedia[], hq: boolean }) {
     return (
         <div className="grid-element space-y-3">
