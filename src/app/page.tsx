@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 // https://nextjs.org/docs/pages/api-reference/components/image#placeholder
 
 // TODO: Implement safe mode toggle
-// TODO: Implement test and real danbooru calls switch
+// TODO: Implement test and real danbooru calls switch: Use cookies to store the URL.
 
 async function getStaticProps(domain: string) {
     const res = await fetch(`https://${domain}/posts.json?page=1&limit=40&tags=rating:g`);
