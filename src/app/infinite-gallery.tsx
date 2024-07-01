@@ -6,12 +6,13 @@ import MasonryGallery2c from "./ui/masonry-gallery-2c";
 import MasonryGallery3c from "./ui/masonry-gallery-3c";
 import MasonryGallery4c from "./ui/masonry-gallery-4c";
 import { Squares2X2Icon } from '@heroicons/react/24/outline';
+import { getCookieValue, setCookie } from "./lib/cookies";
 
 // BUG: It crashes when hot reloading, don't know if it's affected by another scenario. Solves itself reloading the page.
 // It crashes when it's loading more pages and the window changes (whether by realoding the project or clicking a link).
 // The issue is gone when useEffect is commented. Probably the loadMoreData or onScroll functions are problematic.
 
-// TODO: Check if https://react.dev/learn/passing-data-deeply-with-context can help with maintaining the state of loaded images when going back or realoading here.
+// TODO: Check if https://react.dev/learn/passing-data-deeply-with-context can help with maintaining the state of loaded images when going back or reloading here.
 
 // KNOWLEDGE: infinite scroll: https://dev.to/kawanedres/implementing-infinite-scroll-in-nextjs-with-ssg-without-any-library-29g9
 
@@ -27,13 +28,13 @@ function filterEmptyURLs(booruMediaArray: BooruMedia[]): BooruMedia[] {
     return booruMediaArray.filter((media: BooruMedia) => typeof media.file_url !== "undefined");
 }
 
-const InfiniteGallery = ({ initialData, domain }: { initialData: BooruMedia[], domain: string}) => {
+const InfiniteGallery = ({ initialData, domain, colsCookieValue }: { initialData: BooruMedia[], domain: string, colsCookieValue: number }) => {
     const [booruMediaArray, setBooruMediaArray] = useState(
         filterEmptyURLs(
             addProperties(initialData, domain)
         )
     );
-    const [cols, setCols] = useState(2);
+    const [cols, setCols] = useState(colsCookieValue);
     const [page, setPage] = useState(1);
     const [requestedPages, setRequestedPages] = useState(Array.prototype);
     const [isLoading, setIsLoading] = useState(false);
@@ -69,10 +70,17 @@ const InfiniteGallery = ({ initialData, domain }: { initialData: BooruMedia[], d
         return () => window.removeEventListener('scroll', onScroll);
     }, [onScroll]);
 
-    function changeColsNum() {
-        if (cols == 2) setCols(3);
-        else if (cols == 3) setCols(4);
-        else setCols(2);
+    async function changeColsNum() {
+        if (cols == 2) {
+            setCookie('cols', '3');
+        }
+        else if (cols == 3) {
+            setCookie('cols', '4');
+        }
+        else {
+            setCookie('cols', '2');
+        }
+        setCols(Number(await getCookieValue('cols')));
     }
 
     return (
@@ -83,7 +91,7 @@ const InfiniteGallery = ({ initialData, domain }: { initialData: BooruMedia[], d
                     ? <MasonryGallery3c booruMediaArray={ booruMediaArray }/>
                     : cols == 4
                         ? <MasonryGallery4c booruMediaArray={ booruMediaArray }/>
-                        : <h1>Invalid colsNum value.</h1>
+                        : <h1>Invalid colsNum value. {cols}</h1>
             }
             <div onClick={() => { loadMoreData() }} className="flex items-center justify-center w-full my-4">
                 <div className="flex items-center justify-center bg-slate-800 rounded-xl h-[48px] w-[192px]">
