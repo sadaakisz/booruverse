@@ -1,6 +1,6 @@
 import InfiniteGallery from "./infinite-gallery";
 import { Metadata } from 'next'
-import { getCookieValue, setCookie } from "./lib/cookies";
+import { getCookieValue, setCookie } from "./lib/actions";
 
 export const metadata: Metadata = {
     title: 'booruverse',
