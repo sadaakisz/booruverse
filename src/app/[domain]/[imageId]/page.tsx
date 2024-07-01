@@ -6,7 +6,8 @@ import { useEffect, useState } from 'react';
 
 // KNOWLEDGE: Routing conventions: https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes#example
 // KNOWLEDGE: Fetching on load: https://nextjs.org/docs/pages/building-your-application/data-fetching/client-side#client-side-data-fetching-with-useeffect
-// BUG: Sometimes when navigating towards this page it crashes.
+
+// TODO: Create a route for video media
 
 const BooruImage = () => {
     const pathname = usePathname();
