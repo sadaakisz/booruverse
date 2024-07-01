@@ -38,10 +38,10 @@ export default function MasonryGallery3c({ booruMediaArray }: { booruMediaArray:
 
     return (
         <div className="grid gap-3 grid-cols-4">
-            <MasonryGalleryCol booruMediaArray={bmArrayC1} hq={false}/>
-            <MasonryGalleryCol booruMediaArray={bmArrayC2} hq={false}/>
-            <MasonryGalleryCol booruMediaArray={bmArrayC3} hq={false}/>
-            <MasonryGalleryCol booruMediaArray={bmArrayC4} hq={false}/>
+            <MasonryGalleryCol booruMediaArray={bmArrayC1} hq={true}/>
+            <MasonryGalleryCol booruMediaArray={bmArrayC2} hq={true}/>
+            <MasonryGalleryCol booruMediaArray={bmArrayC3} hq={true}/>
+            <MasonryGalleryCol booruMediaArray={bmArrayC4} hq={true}/>
         </div>
     );
 }
