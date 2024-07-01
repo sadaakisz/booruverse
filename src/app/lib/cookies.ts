@@ -4,8 +4,12 @@ import { cookies } from "next/headers";
 
 // KNOWLEDGE: https://nextjs.org/docs/app/api-reference/functions/cookies
 
-export async function getCookie(name: string) {
-    return cookies().get(name);
+export async function getCookieValue(name: string) {
+    const tmpCookie = cookies().get(name);
+    if (typeof tmpCookie !== 'undefined') {
+        return tmpCookie.value;
+    }
+    return '';
 }
 
 export async function setCookie(name: string, value: string) {

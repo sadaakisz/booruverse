@@ -1,6 +1,6 @@
 import InfiniteGallery from "./infinite-gallery";
 import { Metadata } from 'next'
-import { getCookie, setCookie } from "./lib/cookies";
+import { getCookieValue, setCookie } from "./lib/cookies";
 
 export const metadata: Metadata = {
     title: 'booruverse',
@@ -20,12 +20,10 @@ async function getStaticProps(domain: string) {
 export default async function Page() {
     const domain = 'testbooru.donmai.us';
     const initialData = await getStaticProps(domain);
-    const colsCookie = await getCookie('cols');
-    let colsCookieValue = 2;
-    if (typeof colsCookie !== 'undefined') {
-        colsCookieValue = Number(colsCookie.value);
-    } else {
+    let colsCookieValue = Number(await getCookieValue('cols'));
+    if (colsCookieValue == 0) {
         setCookie('cols', '2');
+        colsCookieValue = 2;
     }
 
     return (

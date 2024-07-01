@@ -6,7 +6,7 @@ import MasonryGallery2c from "./ui/masonry-gallery-2c";
 import MasonryGallery3c from "./ui/masonry-gallery-3c";
 import MasonryGallery4c from "./ui/masonry-gallery-4c";
 import { Squares2X2Icon } from '@heroicons/react/24/outline';
-import { getCookie, setCookie } from "./lib/cookies";
+import { getCookieValue, setCookie } from "./lib/cookies";
 
 // BUG: It crashes when hot reloading, don't know if it's affected by another scenario. Solves itself reloading the page.
 // It crashes when it's loading more pages and the window changes (whether by realoding the project or clicking a link).
@@ -80,10 +80,7 @@ const InfiniteGallery = ({ initialData, domain, colsCookieValue }: { initialData
         else {
             setCookie('cols', '2');
         }
-        const tmpColsCookie = await getCookie('cols');
-        if (typeof tmpColsCookie !== "undefined") {
-            setCols(Number(tmpColsCookie.value));
-        }
+        setCols(Number(await getCookieValue('cols')));
     }
 
     return (
